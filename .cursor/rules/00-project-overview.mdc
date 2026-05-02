@@ -1,0 +1,26 @@
+---
+description: Cayro ERP frontend overview — stack, auth, menu-driven nav
+globs: "**/*.{ts,tsx}"
+alwaysApply: true
+---
+
+# Cayro Multi-Store ERP Frontend
+
+Operational SPA for Cayro stores + HQ. Consumes `cayro-multi-store-backend` REST APIs.
+
+**Read [`CLAUDE.md`](mdc:CLAUDE.md) first.**
+
+## Stack (locked)
+
+Vite · React 19 · TS · TanStack Router · TanStack Query · Zustand · shadcn/ui · Tailwind 4 · Axios · next-themes.
+
+## Auth
+
+Access JWT in memory (`@/lib/access-token`). Refresh in `sessionStorage`. Menu from `GET /auth/me/menu`.
+
+## Rules
+
+- Path alias `@/` only — never `../../../`.
+- Sidebar from API — no static role→menu mapping.
+- ERP UI: dense tables, badges, monospace for codes, light+dark.
+- Idempotency header for store create / pickup create when implementing mutations.
