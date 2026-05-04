@@ -1,19 +1,18 @@
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { useSyncExternalStore } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 
 const sequence = ['light', 'dark', 'system'] as const
-const emptySubscribe = () => () => undefined
 
 export function ThemeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme()
-  const mounted = useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false,
-  )
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const cycle = () => {
     const current = (theme ?? 'system') as (typeof sequence)[number]

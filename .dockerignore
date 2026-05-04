@@ -1,0 +1,25 @@
+node_modules
+dist
+dist-ssr
+coverage
+.git
+.gitignore
+.github
+.vscode
+.idea
+.DS_Store
+.husky
+*.log
+npm-debug.log*
+e2e
+test-results
+playwright-report
+**/*.spec.ts
+**/*.test.ts
+**/*.test.tsx
+README.md
+AGENTS.md
+CLAUDE.md
+docs
+# NOTE: do NOT ignore .env — CI writes secrets.ENV_FILE_PROD to .env
+# before docker build so Vite picks VITE_* vars at build time.
