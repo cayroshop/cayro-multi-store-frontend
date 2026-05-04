@@ -5,8 +5,10 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-ENV HUSKY=0 \
-    NODE_ENV=production
+# Do not set NODE_ENV=production before `npm ci` — npm omits devDependencies
+# (vite, plugins, types) and the build fails. Enable production for Vite only
+# when running the build.
+ENV HUSKY=0
 
 COPY package*.json ./
 
@@ -14,6 +16,7 @@ RUN npm ci --ignore-scripts
 
 COPY . .
 
+ENV NODE_ENV=production
 RUN npm run build
 
 # ---------- Serve stage ----------
