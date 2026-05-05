@@ -47,7 +47,7 @@ function LoginPage() {
   return (
     <div className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden p-4">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,hsl(var(--primary)/0.25),transparent)] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,hsl(var(--primary)/0.35),transparent)]" />
-      <div className="border-border/60 bg-card/80 supports-[backdrop-filter]:bg-card/60 relative z-10 w-full max-w-[420px] rounded-2xl border p-px shadow-2xl backdrop-blur-xl">
+      <div className="border-border/60 bg-card/80 supports-backdrop-filter:bg-card/60 relative z-10 w-full max-w-105 rounded-2xl border p-px shadow-2xl backdrop-blur-xl">
         <Card className="border-0 bg-transparent shadow-none">
           <CardHeader className="space-y-3 pb-2 text-center">
             <div className="bg-primary text-primary-foreground mx-auto flex size-14 items-center justify-center rounded-2xl shadow-lg">

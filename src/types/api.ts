@@ -72,6 +72,7 @@ export type StoreRecord = {
   timezone: string
   createdAt?: string
   updatedAt?: string
+  isActive: boolean
 }
 
 export type RoleAbility = {

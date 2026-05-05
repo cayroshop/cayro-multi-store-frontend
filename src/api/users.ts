@@ -1,4 +1,5 @@
 import { apiClient } from '@/lib/api-client'
+import { getRequest } from '@/lib/request'
 import type { UserListResponse } from '@/types/api'
 
 export type ListUsersParams = {
@@ -7,12 +8,16 @@ export type ListUsersParams = {
   email?: string
 }
 
-export async function listUsers(params?: ListUsersParams) {
-  const { data } = await apiClient.get<UserListResponse>('/users', { params })
-  return data
+export function listUsers(params?: ListUsersParams) {
+  return getRequest<UserListResponse>('/hq/users', params)
 }
 
 export async function getUser(id: string) {
-  const { data } = await apiClient.get(`/users/${id}`)
+  const { data } = await apiClient.get(`/hq/users/${id}`)
+  return data
+}
+
+export async function deleteUser(id: string) {
+  const { data } = await apiClient.delete(`/hq/users/${id}`)
   return data
 }

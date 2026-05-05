@@ -1,6 +1,5 @@
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 
@@ -8,11 +7,6 @@ const sequence = ['light', 'dark', 'system'] as const
 
 export function ThemeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const cycle = () => {
     const current = (theme ?? 'system') as (typeof sequence)[number]
@@ -20,9 +14,9 @@ export function ThemeToggle() {
     setTheme(sequence[(idx + 1) % sequence.length])
   }
 
-  if (!mounted) {
+  if (!resolvedTheme) {
     return (
-      <Button variant="ghost" size="icon" className="size-9" aria-hidden disabled>
+      <Button variant="ghost" size="icon" className="size-9" disabled>
         <Sun className="size-4" />
       </Button>
     )

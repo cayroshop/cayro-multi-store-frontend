@@ -8,10 +8,6 @@ import type { LoginResponse } from '@/types/api'
 
 const baseURL = env.VITE_API_BASE_URL ?? '/api/v1'
 
-/**
- * Single axios instance for the ERP API. Access JWT is kept in memory; refresh token is in sessionStorage.
- * `withCredentials: true` keeps the door open for future HttpOnly cookies.
- */
 export const apiClient = axios.create({
   baseURL,
   withCredentials: true,
@@ -87,8 +83,13 @@ apiClient.interceptors.response.use(
 
 export async function bootstrapSession(): Promise<boolean> {
   useAuthStore.getState().hydrateFromStorage()
+
+  // Already have a valid access token — no need to hit /auth/refresh
+  if (useAuthStore.getState().accessToken) return true
+
   const rt = getStoredRefreshToken()
   if (!rt) return false
+
   try {
     const { data } = await raw.post<LoginResponse>('/auth/refresh', { refreshToken: rt })
     applySession(data)

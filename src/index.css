@@ -128,3 +128,58 @@
     @apply font-sans;
   }
 }
+
+/* ─── Sidebar green theme ────────────────────────────────────────────────── */
+
+/*
+  Light mode  → #04535c (deep teal-green)
+  Dark mode   → oklch(0.145 0 0) — same dark background as the rest of the app
+*/
+
+.sidebar-green {
+  background-color: #04535c;
+}
+
+.dark .sidebar-green {
+  background-color: oklch(0.145 0 0);
+  border-right: 1px solid oklch(1 0 0 / 10%);
+}
+
+/* ─── Flicker fix for Sheet / mobile sidebar ─────────────────────────────── */
+
+/*
+  GPU compositing pehle se engage — Sheet slide animation smooth rahegi,
+  first-paint flash nahi hoga. backface-visibility: hidden Chrome pe
+  layer promotion force karta hai.
+*/
+
+.sidebar-green {
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ─── Override shadcn sidebar CSS vars to green ──────────────────────────── */
+/* sidebar-green class ke andar ye vars override ho jaate hain               */
+
+.sidebar-green,
+[data-sidebar="sidebar"].sidebar-green {
+  --sidebar-background: #04535c;
+  --sidebar-foreground: rgba(255,255,255,0.85);
+  --sidebar-accent: rgba(255,255,255,0.12);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(255,255,255,0.15);
+  --sidebar-primary: rgba(255,255,255,0.2);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-ring: rgba(255,255,255,0.3);
+}
+
+/* Dark mode — same dark bg as rest of app */
+.dark .sidebar-green,
+.dark [data-sidebar="sidebar"].sidebar-green {
+  --sidebar-background: oklch(0.145 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(1 0 0 / 8%);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+}
