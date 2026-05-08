@@ -13,7 +13,7 @@ export const STATUS_LIST: StatusItem[] = [
   {
     value: 'inactive',
     label: 'Inactive',
-    className: 'bg-gray-100 text-gray-600',
+    className: 'bg-red-100 text-red-600',
   },
   {
     value: 'pending',

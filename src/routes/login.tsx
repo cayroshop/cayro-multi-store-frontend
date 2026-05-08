@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
-import { Building2, Loader2 } from 'lucide-react'
-import { useId } from 'react'
+import { Building2, Eye, EyeOff, Loader2 } from 'lucide-react'
+import { useId, useState } from 'react'
 import { toast } from 'sonner'
 
 import { loginRequest } from '@/api/auth'
@@ -28,6 +28,7 @@ export const Route = createFileRoute('/login')({
 })
 
 function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false)
   const emailId = useId()
   const passwordId = useId()
   const navigate = useNavigate()
@@ -83,14 +84,25 @@ function LoginPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor={passwordId}>Password</Label>
-                <Input
-                  id={passwordId}
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="h-11 bg-background/60"
-                />
+
+                <div className="relative">
+                  <Input
+                    id={passwordId}
+                    name="password"
+                    type={showPassword ? 'text' : 'password'}
+                    autoComplete="current-password"
+                    required
+                    className="h-11 bg-background/60 pr-10"
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute inset-y-0 right-2 flex items-center text-muted-foreground"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
               </div>
               <Button
                 type="submit"

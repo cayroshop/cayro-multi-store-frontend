@@ -29,32 +29,13 @@ import {
   type StoreRoleDetails,
 } from '@/api/store/storeRoles'
 
-import { PERMISSION_SCHEMA, TEMPLATES } from '@/api/commonTypes'
+import { ACTION_ORDER, PERMISSION_SCHEMA, TEMPLATES } from '@/api/commonTypes'
 
 // ─── Derived constants from schema ───────────────────────────────────────────
 
 const SUBJECTS = Object.keys(PERMISSION_SCHEMA) as string[]
 
 // All unique actions across all subjects, in a logical display order
-const ACTION_ORDER = [
-  'read',
-  'create',
-  'update',
-  'delete',
-  'assign',
-  'sync',
-  'cancel',
-  'deliver',
-  'ship',
-  'dispatch',
-  'receive',
-  'approve',
-  'move',
-  'adjust',
-  'void',
-  'refund',
-  'export',
-]
 
 const ALL_ACTIONS = ACTION_ORDER.filter((a) =>
   Object.values(PERMISSION_SCHEMA).some((actions) => actions.includes(a)),
@@ -322,7 +303,18 @@ export default function StoreRoleEdit({ id }: { id?: string }) {
   })
 
   const onSubmit = (values: FormValues) => {
-    mutation.mutate({ ...values, abilities: matrixToAbilities(matrix) })
+    const payload: any = {
+      name: values.name,
+      description: values.description,
+      abilities: matrixToAbilities(matrix),
+    }
+
+    // सिर्फ तभी भेजो जब template select किया हो
+    if (values.template) {
+      payload.template = values.template
+    }
+
+    mutation.mutate(payload)
   }
 
   const totalPermissions = Object.values(matrix).reduce((sum, set) => sum + set.size, 0)
@@ -369,9 +361,7 @@ export default function StoreRoleEdit({ id }: { id?: string }) {
           </div>
 
           <div className="space-y-1.5">
-            <Label className="text-sm font-medium">
-              Template <span className="text-destructive">*</span>
-            </Label>
+            <Label className="text-sm font-medium">Template</Label>
             <Combobox
               items={TEMPLATES}
               value={templateValue}
@@ -471,8 +461,8 @@ export default function StoreRoleEdit({ id }: { id?: string }) {
                       key={subject}
                       className={[
                         'border-b border-border/30 transition-colors',
-                        idx % 2 === 1 ? 'bg-muted/[0.03]' : '',
-                        hasAny ? '!bg-muted/10' : '',
+                        idx % 2 === 1 ? 'bg-muted/3' : '',
+                        hasAny ? 'bg-muted/10!' : '',
                         'hover:bg-muted/15',
                       ].join(' ')}
                     >

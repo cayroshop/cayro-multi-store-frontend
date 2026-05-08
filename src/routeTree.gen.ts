@@ -14,14 +14,10 @@ import { Route as StoreRouteRouteImport } from './routes/store/route'
 import { Route as HqRouteRouteImport } from './routes/hq/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StoreDashboardRouteImport } from './routes/store/dashboard'
-import { Route as HqUsersRouteImport } from './routes/hq/users'
-import { Route as HqStoresRouteImport } from './routes/hq/stores'
-import { Route as HqRolesRouteImport } from './routes/hq/roles'
 import { Route as HqDashboardRouteImport } from './routes/hq/dashboard'
+import { Route as StoreSettingsStaffRouteImport } from './routes/store/settings/staff'
 import { Route as StoreSettingsRolesRouteImport } from './routes/store/settings/roles'
-import { Route as HqUsersUserIdRouteImport } from './routes/hq/users.$userId'
-import { Route as HqStoresStoreIdRouteImport } from './routes/hq/stores.$storeId'
-import { Route as HqRolesRoleIdRouteImport } from './routes/hq/roles.$roleId'
+import { Route as HqUsersStaffRouteImport } from './routes/hq/users/staff'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -48,45 +44,25 @@ const StoreDashboardRoute = StoreDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => StoreRouteRoute,
 } as any)
-const HqUsersRoute = HqUsersRouteImport.update({
-  id: '/users',
-  path: '/users',
-  getParentRoute: () => HqRouteRoute,
-} as any)
-const HqStoresRoute = HqStoresRouteImport.update({
-  id: '/stores',
-  path: '/stores',
-  getParentRoute: () => HqRouteRoute,
-} as any)
-const HqRolesRoute = HqRolesRouteImport.update({
-  id: '/roles',
-  path: '/roles',
-  getParentRoute: () => HqRouteRoute,
-} as any)
 const HqDashboardRoute = HqDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => HqRouteRoute,
+} as any)
+const StoreSettingsStaffRoute = StoreSettingsStaffRouteImport.update({
+  id: '/settings/staff',
+  path: '/settings/staff',
+  getParentRoute: () => StoreRouteRoute,
 } as any)
 const StoreSettingsRolesRoute = StoreSettingsRolesRouteImport.update({
   id: '/settings/roles',
   path: '/settings/roles',
   getParentRoute: () => StoreRouteRoute,
 } as any)
-const HqUsersUserIdRoute = HqUsersUserIdRouteImport.update({
-  id: '/$userId',
-  path: '/$userId',
-  getParentRoute: () => HqUsersRoute,
-} as any)
-const HqStoresStoreIdRoute = HqStoresStoreIdRouteImport.update({
-  id: '/$storeId',
-  path: '/$storeId',
-  getParentRoute: () => HqStoresRoute,
-} as any)
-const HqRolesRoleIdRoute = HqRolesRoleIdRouteImport.update({
-  id: '/$roleId',
-  path: '/$roleId',
-  getParentRoute: () => HqRolesRoute,
+const HqUsersStaffRoute = HqUsersStaffRouteImport.update({
+  id: '/users/staff',
+  path: '/users/staff',
+  getParentRoute: () => HqRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -95,14 +71,10 @@ export interface FileRoutesByFullPath {
   '/store': typeof StoreRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/hq/dashboard': typeof HqDashboardRoute
-  '/hq/roles': typeof HqRolesRouteWithChildren
-  '/hq/stores': typeof HqStoresRouteWithChildren
-  '/hq/users': typeof HqUsersRouteWithChildren
   '/store/dashboard': typeof StoreDashboardRoute
-  '/hq/roles/$roleId': typeof HqRolesRoleIdRoute
-  '/hq/stores/$storeId': typeof HqStoresStoreIdRoute
-  '/hq/users/$userId': typeof HqUsersUserIdRoute
+  '/hq/users/staff': typeof HqUsersStaffRoute
   '/store/settings/roles': typeof StoreSettingsRolesRoute
+  '/store/settings/staff': typeof StoreSettingsStaffRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -110,14 +82,10 @@ export interface FileRoutesByTo {
   '/store': typeof StoreRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/hq/dashboard': typeof HqDashboardRoute
-  '/hq/roles': typeof HqRolesRouteWithChildren
-  '/hq/stores': typeof HqStoresRouteWithChildren
-  '/hq/users': typeof HqUsersRouteWithChildren
   '/store/dashboard': typeof StoreDashboardRoute
-  '/hq/roles/$roleId': typeof HqRolesRoleIdRoute
-  '/hq/stores/$storeId': typeof HqStoresStoreIdRoute
-  '/hq/users/$userId': typeof HqUsersUserIdRoute
+  '/hq/users/staff': typeof HqUsersStaffRoute
   '/store/settings/roles': typeof StoreSettingsRolesRoute
+  '/store/settings/staff': typeof StoreSettingsStaffRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -126,14 +94,10 @@ export interface FileRoutesById {
   '/store': typeof StoreRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/hq/dashboard': typeof HqDashboardRoute
-  '/hq/roles': typeof HqRolesRouteWithChildren
-  '/hq/stores': typeof HqStoresRouteWithChildren
-  '/hq/users': typeof HqUsersRouteWithChildren
   '/store/dashboard': typeof StoreDashboardRoute
-  '/hq/roles/$roleId': typeof HqRolesRoleIdRoute
-  '/hq/stores/$storeId': typeof HqStoresStoreIdRoute
-  '/hq/users/$userId': typeof HqUsersUserIdRoute
+  '/hq/users/staff': typeof HqUsersStaffRoute
   '/store/settings/roles': typeof StoreSettingsRolesRoute
+  '/store/settings/staff': typeof StoreSettingsStaffRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -143,14 +107,10 @@ export interface FileRouteTypes {
     | '/store'
     | '/login'
     | '/hq/dashboard'
-    | '/hq/roles'
-    | '/hq/stores'
-    | '/hq/users'
     | '/store/dashboard'
-    | '/hq/roles/$roleId'
-    | '/hq/stores/$storeId'
-    | '/hq/users/$userId'
+    | '/hq/users/staff'
     | '/store/settings/roles'
+    | '/store/settings/staff'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -158,14 +118,10 @@ export interface FileRouteTypes {
     | '/store'
     | '/login'
     | '/hq/dashboard'
-    | '/hq/roles'
-    | '/hq/stores'
-    | '/hq/users'
     | '/store/dashboard'
-    | '/hq/roles/$roleId'
-    | '/hq/stores/$storeId'
-    | '/hq/users/$userId'
+    | '/hq/users/staff'
     | '/store/settings/roles'
+    | '/store/settings/staff'
   id:
     | '__root__'
     | '/'
@@ -173,14 +129,10 @@ export interface FileRouteTypes {
     | '/store'
     | '/login'
     | '/hq/dashboard'
-    | '/hq/roles'
-    | '/hq/stores'
-    | '/hq/users'
     | '/store/dashboard'
-    | '/hq/roles/$roleId'
-    | '/hq/stores/$storeId'
-    | '/hq/users/$userId'
+    | '/hq/users/staff'
     | '/store/settings/roles'
+    | '/store/settings/staff'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -227,33 +179,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreDashboardRouteImport
       parentRoute: typeof StoreRouteRoute
     }
-    '/hq/users': {
-      id: '/hq/users'
-      path: '/users'
-      fullPath: '/hq/users'
-      preLoaderRoute: typeof HqUsersRouteImport
-      parentRoute: typeof HqRouteRoute
-    }
-    '/hq/stores': {
-      id: '/hq/stores'
-      path: '/stores'
-      fullPath: '/hq/stores'
-      preLoaderRoute: typeof HqStoresRouteImport
-      parentRoute: typeof HqRouteRoute
-    }
-    '/hq/roles': {
-      id: '/hq/roles'
-      path: '/roles'
-      fullPath: '/hq/roles'
-      preLoaderRoute: typeof HqRolesRouteImport
-      parentRoute: typeof HqRouteRoute
-    }
     '/hq/dashboard': {
       id: '/hq/dashboard'
       path: '/dashboard'
       fullPath: '/hq/dashboard'
       preLoaderRoute: typeof HqDashboardRouteImport
       parentRoute: typeof HqRouteRoute
+    }
+    '/store/settings/staff': {
+      id: '/store/settings/staff'
+      path: '/settings/staff'
+      fullPath: '/store/settings/staff'
+      preLoaderRoute: typeof StoreSettingsStaffRouteImport
+      parentRoute: typeof StoreRouteRoute
     }
     '/store/settings/roles': {
       id: '/store/settings/roles'
@@ -262,76 +200,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreSettingsRolesRouteImport
       parentRoute: typeof StoreRouteRoute
     }
-    '/hq/users/$userId': {
-      id: '/hq/users/$userId'
-      path: '/$userId'
-      fullPath: '/hq/users/$userId'
-      preLoaderRoute: typeof HqUsersUserIdRouteImport
-      parentRoute: typeof HqUsersRoute
-    }
-    '/hq/stores/$storeId': {
-      id: '/hq/stores/$storeId'
-      path: '/$storeId'
-      fullPath: '/hq/stores/$storeId'
-      preLoaderRoute: typeof HqStoresStoreIdRouteImport
-      parentRoute: typeof HqStoresRoute
-    }
-    '/hq/roles/$roleId': {
-      id: '/hq/roles/$roleId'
-      path: '/$roleId'
-      fullPath: '/hq/roles/$roleId'
-      preLoaderRoute: typeof HqRolesRoleIdRouteImport
-      parentRoute: typeof HqRolesRoute
+    '/hq/users/staff': {
+      id: '/hq/users/staff'
+      path: '/users/staff'
+      fullPath: '/hq/users/staff'
+      preLoaderRoute: typeof HqUsersStaffRouteImport
+      parentRoute: typeof HqRouteRoute
     }
   }
 }
 
-interface HqRolesRouteChildren {
-  HqRolesRoleIdRoute: typeof HqRolesRoleIdRoute
-}
-
-const HqRolesRouteChildren: HqRolesRouteChildren = {
-  HqRolesRoleIdRoute: HqRolesRoleIdRoute,
-}
-
-const HqRolesRouteWithChildren =
-  HqRolesRoute._addFileChildren(HqRolesRouteChildren)
-
-interface HqStoresRouteChildren {
-  HqStoresStoreIdRoute: typeof HqStoresStoreIdRoute
-}
-
-const HqStoresRouteChildren: HqStoresRouteChildren = {
-  HqStoresStoreIdRoute: HqStoresStoreIdRoute,
-}
-
-const HqStoresRouteWithChildren = HqStoresRoute._addFileChildren(
-  HqStoresRouteChildren,
-)
-
-interface HqUsersRouteChildren {
-  HqUsersUserIdRoute: typeof HqUsersUserIdRoute
-}
-
-const HqUsersRouteChildren: HqUsersRouteChildren = {
-  HqUsersUserIdRoute: HqUsersUserIdRoute,
-}
-
-const HqUsersRouteWithChildren =
-  HqUsersRoute._addFileChildren(HqUsersRouteChildren)
-
 interface HqRouteRouteChildren {
   HqDashboardRoute: typeof HqDashboardRoute
-  HqRolesRoute: typeof HqRolesRouteWithChildren
-  HqStoresRoute: typeof HqStoresRouteWithChildren
-  HqUsersRoute: typeof HqUsersRouteWithChildren
+  HqUsersStaffRoute: typeof HqUsersStaffRoute
 }
 
 const HqRouteRouteChildren: HqRouteRouteChildren = {
   HqDashboardRoute: HqDashboardRoute,
-  HqRolesRoute: HqRolesRouteWithChildren,
-  HqStoresRoute: HqStoresRouteWithChildren,
-  HqUsersRoute: HqUsersRouteWithChildren,
+  HqUsersStaffRoute: HqUsersStaffRoute,
 }
 
 const HqRouteRouteWithChildren =
@@ -340,11 +226,13 @@ const HqRouteRouteWithChildren =
 interface StoreRouteRouteChildren {
   StoreDashboardRoute: typeof StoreDashboardRoute
   StoreSettingsRolesRoute: typeof StoreSettingsRolesRoute
+  StoreSettingsStaffRoute: typeof StoreSettingsStaffRoute
 }
 
 const StoreRouteRouteChildren: StoreRouteRouteChildren = {
   StoreDashboardRoute: StoreDashboardRoute,
   StoreSettingsRolesRoute: StoreSettingsRolesRoute,
+  StoreSettingsStaffRoute: StoreSettingsStaffRoute,
 }
 
 const StoreRouteRouteWithChildren = StoreRouteRoute._addFileChildren(

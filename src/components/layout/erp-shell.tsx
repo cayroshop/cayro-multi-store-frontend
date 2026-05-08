@@ -317,7 +317,7 @@ export function ErpShell({
               <Button
                 variant="ghost"
                 size="icon"
-                className="size-9"
+                className="size-9 hover:text-destructive"
                 aria-label="Log out"
                 onClick={async () => {
                   await logoutRequest()

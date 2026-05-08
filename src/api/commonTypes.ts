@@ -47,3 +47,23 @@ export const PERMISSION_SCHEMA: Record<string, readonly string[]> = {
   Invoices: ['read'],
   Catalog: ['read', 'create'],
 } as const
+
+export const ACTION_ORDER = [
+  'read',
+  'create',
+  'update',
+  'delete',
+  'assign',
+  'sync',
+  'cancel',
+  'deliver',
+  'ship',
+  'dispatch',
+  'receive',
+  'approve',
+  'move',
+  'adjust',
+  'void',
+  'refund',
+  'export',
+]

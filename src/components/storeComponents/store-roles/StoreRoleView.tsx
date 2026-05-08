@@ -1,6 +1,6 @@
 import { useNavigate } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { ArrowLeft, Calendar, Building2, Shield, Pencil, CheckCircle2, XCircle } from 'lucide-react'
+import { ArrowLeft, Calendar, Building2, Shield, CheckCircle2, XCircle } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -108,16 +108,6 @@ export default function StoreRoleView({ id }: { id: string }) {
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Roles
-        </Button>
-
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={() => navigate({ to: '/store/settings/roles', search: { edit: id } })}
-          className="gap-1.5"
-        >
-          <Pencil className="h-3.5 w-3.5" />
-          Edit Role
         </Button>
       </div>
 

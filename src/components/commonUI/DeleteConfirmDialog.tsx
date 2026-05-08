@@ -1,4 +1,3 @@
-// components/common/DeleteConfirmDialog.tsx
 import {
   Dialog,
   DialogContent,
@@ -8,6 +7,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { AlertTriangle, Loader2 } from 'lucide-react'
 
 interface DeleteConfirmDialogProps {
   open: boolean
@@ -32,18 +32,45 @@ export default function DeleteConfirmDialog({
 }: DeleteConfirmDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+      <DialogContent className="max-w-md rounded-2xl p-6">
+        {/* Icon + Title */}
+        <DialogHeader className="items-center text-center space-y-3">
+          <div className="flex size-14 items-center justify-center rounded-full bg-red-100 text-red-600">
+            <AlertTriangle className="size-6" />
+          </div>
+
+          <DialogTitle className="text-lg font-semibold">{title}</DialogTitle>
+
+          <DialogDescription className="text-sm text-muted-foreground max-w-sm">
+            {description}
+          </DialogDescription>
         </DialogHeader>
 
-        <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isPending}>
+        {/* Footer */}
+        <DialogFooter className="mt-6 flex gap-2 sm:justify-center">
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            disabled={isPending}
+            className="w-full sm:w-auto"
+          >
             {cancelText}
           </Button>
-          <Button variant="destructive" onClick={onConfirm} disabled={isPending}>
-            {confirmText}
+
+          <Button
+            variant="destructive"
+            onClick={onConfirm}
+            disabled={isPending}
+            className="w-full sm:w-auto shadow-md"
+          >
+            {isPending ? (
+              <>
+                <Loader2 className="mr-2 size-4 animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              confirmText
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

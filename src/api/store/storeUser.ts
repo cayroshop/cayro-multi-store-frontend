@@ -35,6 +35,41 @@ export interface UpdateStoreUserPayload {
   roleId?: string
 }
 
+// Reset Password Payload
+export interface ResetPasswordPayload {
+  newPassword: string
+}
+
+// Ability item (from role or override)
+export interface AbilityItem {
+  action: string
+  subject: string
+  inverted?: boolean
+}
+
+// Abilities response — GET /store/users/:id/abilities
+export interface StoreUserAbilities {
+  userId: string
+  scope: string
+  role: {
+    id: string
+    name: string
+    template: string
+    abilities: AbilityItem[]
+  }
+  overrides: {
+    allow: AbilityItem[]
+    deny: AbilityItem[]
+  }
+  effective: AbilityItem[]
+}
+
+// Update abilities payload — PUT /store/users/:id/abilities
+export interface UpdateAbilitiesPayload {
+  allow: AbilityItem[]
+  deny: AbilityItem[]
+}
+
 // Detailed Response
 export interface StoreUserDetails extends StoreUser {
   passwordHash: string
@@ -88,5 +123,26 @@ export async function updateStoreUser(id: string, payload: UpdateStoreUserPayloa
 // 🔹 Delete
 export async function deleteStoreUser(id: string) {
   const { data } = await apiClient.delete(`/store/users/${id}`)
+  return data
+}
+
+// 🔹 Reset Password
+export async function resetStoreUserPassword(id: string, payload: ResetPasswordPayload) {
+  const { data } = await apiClient.post<{ ok: boolean }>(
+    `/store/users/${id}/reset-password`,
+    payload,
+  )
+  return data
+}
+
+// 🔹 Get Abilities
+export async function getStoreUserAbilities(id: string) {
+  const { data } = await apiClient.get<StoreUserAbilities>(`/store/users/${id}/abilities`)
+  return data
+}
+
+// 🔹 Update Abilities (overrides)
+export async function updateStoreUserAbilities(id: string, payload: UpdateAbilitiesPayload) {
+  const { data } = await apiClient.put<StoreUserAbilities>(`/store/users/${id}/abilities`, payload)
   return data
 }

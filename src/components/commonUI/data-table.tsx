@@ -23,6 +23,7 @@ type DataTableProps<T> = {
   loadingComponent?: ReactNode
   emptyText?: string
   action?: (row: T) => ReactNode
+  emptyComponent?: ReactNode
 }
 
 export function DataTable<T>({
@@ -31,6 +32,7 @@ export function DataTable<T>({
   isLoading,
   loadingComponent,
   emptyText = 'No data found',
+  emptyComponent,
   action,
 }: DataTableProps<T>) {
   return (
@@ -70,7 +72,7 @@ export function DataTable<T>({
                 colSpan={columns.length + (action ? 1 : 0)}
                 className="text-center py-6 text-muted-foreground"
               >
-                {emptyText}
+                {emptyComponent ?? emptyText}
               </TableCell>
             </TableRow>
           )}

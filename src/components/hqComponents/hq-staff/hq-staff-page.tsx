@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
-import { Loader2, ShieldCheck } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -12,66 +12,83 @@ import { DataTable, type Column } from '@/components/commonUI/data-table'
 import { TablePagination } from '@/components/commonUI/table-pagination'
 import DeleteConfirmDialog from '@/components/commonUI/DeleteConfirmDialog'
 
-import { deleteStoreRole, listStoreRoles, type StoreRole } from '@/api/store/storeRoles'
+import { deleteHqUserById, listHqUsers, type HqUser } from '@/api/hq/hqUsers'
 import { getApiErrorMessage } from '@/lib/errors'
 import { CommonButton } from '@/components/commonUI/commonButton'
 import { CommonStatus } from '@/components/commonUI/CommonStatus'
 
-export default function StoreRolesPage() {
+export default function HqStaffPage() {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
   const [limit, setLimit] = useState(10)
-  const [deleteTarget, setDeleteTarget] = useState<StoreRole | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<HqUser | null>(null)
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ['storeRoles'],
-    queryFn: listStoreRoles,
+    queryKey: ['hqUsers'],
+    queryFn: () => listHqUsers({ limit, scope: 'STORE' }),
   })
 
   const deleteMutation = useMutation({
-    mutationFn: deleteStoreRole,
+    mutationFn: deleteHqUserById,
     onMutate: async (id: string) => {
-      await queryClient.cancelQueries({ queryKey: ['storeRoles'] })
-      const prev = queryClient.getQueryData<StoreRole[]>(['storeRoles'])
-      queryClient.setQueryData<StoreRole[]>(['storeRoles'], (old = []) =>
-        old.filter((role) => role.id !== id),
+      await queryClient.cancelQueries({ queryKey: ['hqUsers'] })
+      const prev = queryClient.getQueryData<{ items: HqUser[] }>(['hqUsers'])
+      queryClient.setQueryData<{ items: HqUser[] }>(['hqUsers'], (old) =>
+        old ? { ...old, items: old.items.filter((user) => user.id !== id) } : old,
       )
       return { prev }
     },
     onError: (_err, _id, ctx) => {
-      queryClient.setQueryData(['storeRoles'], ctx?.prev)
+      queryClient.setQueryData(['hqUsers'], ctx?.prev)
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['storeRoles'] })
+      queryClient.invalidateQueries({ queryKey: ['hqUsers'] })
       setDeleteTarget(null)
     },
   })
 
-  const columns: Column<StoreRole>[] = [
+  const users = (data as any)?.items ?? data ?? []
+
+  const columns: Column<HqUser>[] = [
     {
-      header: 'Role Name',
+      header: 'Name',
       accessor: 'name',
-      render: (value) => <span className="font-semibold text-foreground">{String(value)}</span>,
+      render: (value) => (
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground uppercase">
+            {String(value)
+              .split(' ')
+              .map((n) => n[0])
+              .slice(0, 2)
+              .join('')}
+          </div>
+          <span className="font-semibold text-foreground">{String(value)}</span>
+        </div>
+      ),
     },
     {
-      header: 'Template',
-      accessor: 'template',
+      header: 'Email',
+      accessor: 'email',
+      className: 'text-muted-foreground text-sm',
+    },
+    {
+      header: 'Phone',
+      accessor: 'phone',
+      className: 'text-muted-foreground text-sm',
+    },
+    {
+      header: 'Status',
+      accessor: 'status',
       render: (value) => <CommonStatus value={String(value)} />,
     },
     {
-      header: 'Description',
-      accessor: 'description',
-      className: 'max-w-[260px] truncate text-muted-foreground text-sm',
-    },
-    {
-      header: 'Permissions',
-      accessor: 'abilities',
+      header: 'Scope',
+      accessor: 'scope',
       render: (value) => (
-        <div className="flex items-center gap-1.5">
-          <ShieldCheck className="h-3.5 w-3.5 text-muted-foreground" />
-          <span className="text-sm text-muted-foreground">{(value as any[])?.length || 0}</span>
-        </div>
+        <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
+          {String(value)}
+        </span>
       ),
     },
     {
@@ -88,18 +105,16 @@ export default function StoreRolesPage() {
     },
   ]
 
-  const actions = (row: StoreRole) => (
+  const actions = (row: HqUser) => (
     <div className="flex justify-end gap-1.5">
       <CommonButton
         type="view"
-        onClick={() => navigate({ to: '/store/settings/roles', search: { view: row.id } })}
+        onClick={() => navigate({ to: '/hq/users/staff', search: { view: row.id } })}
       />
-
       <CommonButton
         type="edit"
-        onClick={() => navigate({ to: '/store/settings/roles', search: { edit: row.id } })}
+        onClick={() => navigate({ to: '/hq/users/staff', search: { edit: row.id } })}
       />
-
       <CommonButton type="delete" onClick={() => setDeleteTarget(row)} />
     </div>
   )
@@ -109,29 +124,29 @@ export default function StoreRolesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Store Roles</h2>
+          <h2 className="text-2xl font-bold tracking-tight">HQ Staff</h2>
           <p className="text-sm text-muted-foreground mt-0.5">
-            Manage role templates and their permissions
+            Manage HQ staff members and their roles
           </p>
         </div>
 
         <Button
-          onClick={() => navigate({ to: '/store/settings/roles', search: { create: 'true' } })}
+          onClick={() => navigate({ to: '/hq/users/staff', search: { create: 'true' } })}
           className="gap-1.5"
         >
-          <span className="text-base leading-none">+</span> Create Role
+          <span className="text-base leading-none">+</span> Add Staff
         </Button>
       </div>
 
       <Card className="overflow-hidden border-border/60 shadow-sm">
-        <CardHeader className="border-b  pb-4 px-6">
+        <CardHeader className="border-b pb-4 px-6">
           <div className="flex items-center justify-between">
             <CardTitle className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-              Roles List
+              Staff List
             </CardTitle>
-            {data && (
+            {users && (
               <span className="text-xs text-muted-foreground">
-                {data.length} role{data.length !== 1 ? 's' : ''}
+                {users.length} member{users.length !== 1 ? 's' : ''}
               </span>
             )}
           </div>
@@ -141,17 +156,17 @@ export default function StoreRolesPage() {
           {error && <p className="text-destructive p-6 text-sm">{getApiErrorMessage(error)}</p>}
 
           <DataTable
-            data={data}
+            data={users}
             columns={columns}
             isLoading={isLoading}
             loadingComponent={
               <TableRow>
-                <TableCell colSpan={6} className="h-32 text-center">
+                <TableCell colSpan={7} className="h-32 text-center">
                   <Loader2 className="mx-auto size-5 animate-spin text-muted-foreground" />
                 </TableCell>
               </TableRow>
             }
-            emptyText="No roles found. Create your first role to get started."
+            emptyText="No HQ staff found. Add your first staff member to get started."
             action={actions}
           />
 
@@ -170,8 +185,8 @@ export default function StoreRolesPage() {
         open={!!deleteTarget}
         onOpenChange={(open) => !open && setDeleteTarget(null)}
         onConfirm={() => deleteTarget && deleteMutation.mutate(deleteTarget.id)}
-        title="Delete Role"
-        description={`Are you sure you want to delete "${deleteTarget?.name}"? This action cannot be undone and may affect users assigned to this role.`}
+        title="Remove HQ Staff Member"
+        description={`Are you sure you want to remove "${deleteTarget?.name}"? This action cannot be undone and will revoke their HQ access.`}
         isPending={deleteMutation.isPending}
       />
     </div>

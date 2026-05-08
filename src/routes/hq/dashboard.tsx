@@ -31,7 +31,7 @@ function HqDashboardPage() {
             </CardContent>
           </Card>
         </Link>
-        <Link to="/hq/users" className="group block">
+        <Link to="/hq/users/staff" className="group block">
           <Card className="border-border/60 bg-card/50 h-full shadow-sm backdrop-blur transition-all hover:border-primary/40 hover:shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Users</CardTitle>

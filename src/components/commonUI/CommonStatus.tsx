@@ -8,7 +8,7 @@ type CommonStatusProps = {
 }
 
 export function CommonStatus({ value, list = STATUS_LIST }: CommonStatusProps) {
-  const status = list.find((s) => s.value === value.toLowerCase())
+  const status = list.find((s) => s.value.toLowerCase() === value.toLowerCase())
 
   if (!status) {
     return <Badge className="bg-gray-100 text-gray-600 border-0">{value}</Badge>
