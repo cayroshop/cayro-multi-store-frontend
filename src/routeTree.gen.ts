@@ -14,10 +14,12 @@ import { Route as StoreRouteRouteImport } from './routes/store/route'
 import { Route as HqRouteRouteImport } from './routes/hq/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StoreDashboardRouteImport } from './routes/store/dashboard'
+import { Route as HqStoresRouteImport } from './routes/hq/stores'
 import { Route as HqDashboardRouteImport } from './routes/hq/dashboard'
 import { Route as StoreSettingsStaffRouteImport } from './routes/store/settings/staff'
 import { Route as StoreSettingsRolesRouteImport } from './routes/store/settings/roles'
 import { Route as HqUsersStaffRouteImport } from './routes/hq/users/staff'
+import { Route as HqUsersAdminsRouteImport } from './routes/hq/users/admins'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -44,6 +46,11 @@ const StoreDashboardRoute = StoreDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => StoreRouteRoute,
 } as any)
+const HqStoresRoute = HqStoresRouteImport.update({
+  id: '/stores',
+  path: '/stores',
+  getParentRoute: () => HqRouteRoute,
+} as any)
 const HqDashboardRoute = HqDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -64,6 +71,11 @@ const HqUsersStaffRoute = HqUsersStaffRouteImport.update({
   path: '/users/staff',
   getParentRoute: () => HqRouteRoute,
 } as any)
+const HqUsersAdminsRoute = HqUsersAdminsRouteImport.update({
+  id: '/users/admins',
+  path: '/users/admins',
+  getParentRoute: () => HqRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -71,7 +83,9 @@ export interface FileRoutesByFullPath {
   '/store': typeof StoreRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/hq/dashboard': typeof HqDashboardRoute
+  '/hq/stores': typeof HqStoresRoute
   '/store/dashboard': typeof StoreDashboardRoute
+  '/hq/users/admins': typeof HqUsersAdminsRoute
   '/hq/users/staff': typeof HqUsersStaffRoute
   '/store/settings/roles': typeof StoreSettingsRolesRoute
   '/store/settings/staff': typeof StoreSettingsStaffRoute
@@ -82,7 +96,9 @@ export interface FileRoutesByTo {
   '/store': typeof StoreRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/hq/dashboard': typeof HqDashboardRoute
+  '/hq/stores': typeof HqStoresRoute
   '/store/dashboard': typeof StoreDashboardRoute
+  '/hq/users/admins': typeof HqUsersAdminsRoute
   '/hq/users/staff': typeof HqUsersStaffRoute
   '/store/settings/roles': typeof StoreSettingsRolesRoute
   '/store/settings/staff': typeof StoreSettingsStaffRoute
@@ -94,7 +110,9 @@ export interface FileRoutesById {
   '/store': typeof StoreRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/hq/dashboard': typeof HqDashboardRoute
+  '/hq/stores': typeof HqStoresRoute
   '/store/dashboard': typeof StoreDashboardRoute
+  '/hq/users/admins': typeof HqUsersAdminsRoute
   '/hq/users/staff': typeof HqUsersStaffRoute
   '/store/settings/roles': typeof StoreSettingsRolesRoute
   '/store/settings/staff': typeof StoreSettingsStaffRoute
@@ -107,7 +125,9 @@ export interface FileRouteTypes {
     | '/store'
     | '/login'
     | '/hq/dashboard'
+    | '/hq/stores'
     | '/store/dashboard'
+    | '/hq/users/admins'
     | '/hq/users/staff'
     | '/store/settings/roles'
     | '/store/settings/staff'
@@ -118,7 +138,9 @@ export interface FileRouteTypes {
     | '/store'
     | '/login'
     | '/hq/dashboard'
+    | '/hq/stores'
     | '/store/dashboard'
+    | '/hq/users/admins'
     | '/hq/users/staff'
     | '/store/settings/roles'
     | '/store/settings/staff'
@@ -129,7 +151,9 @@ export interface FileRouteTypes {
     | '/store'
     | '/login'
     | '/hq/dashboard'
+    | '/hq/stores'
     | '/store/dashboard'
+    | '/hq/users/admins'
     | '/hq/users/staff'
     | '/store/settings/roles'
     | '/store/settings/staff'
@@ -179,6 +203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreDashboardRouteImport
       parentRoute: typeof StoreRouteRoute
     }
+    '/hq/stores': {
+      id: '/hq/stores'
+      path: '/stores'
+      fullPath: '/hq/stores'
+      preLoaderRoute: typeof HqStoresRouteImport
+      parentRoute: typeof HqRouteRoute
+    }
     '/hq/dashboard': {
       id: '/hq/dashboard'
       path: '/dashboard'
@@ -207,16 +238,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HqUsersStaffRouteImport
       parentRoute: typeof HqRouteRoute
     }
+    '/hq/users/admins': {
+      id: '/hq/users/admins'
+      path: '/users/admins'
+      fullPath: '/hq/users/admins'
+      preLoaderRoute: typeof HqUsersAdminsRouteImport
+      parentRoute: typeof HqRouteRoute
+    }
   }
 }
 
 interface HqRouteRouteChildren {
   HqDashboardRoute: typeof HqDashboardRoute
+  HqStoresRoute: typeof HqStoresRoute
+  HqUsersAdminsRoute: typeof HqUsersAdminsRoute
   HqUsersStaffRoute: typeof HqUsersStaffRoute
 }
 
 const HqRouteRouteChildren: HqRouteRouteChildren = {
   HqDashboardRoute: HqDashboardRoute,
+  HqStoresRoute: HqStoresRoute,
+  HqUsersAdminsRoute: HqUsersAdminsRoute,
   HqUsersStaffRoute: HqUsersStaffRoute,
 }
 
